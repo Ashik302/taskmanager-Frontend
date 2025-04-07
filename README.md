@@ -91,5 +91,4 @@ This is the **frontend** for the Task Manager Web App — a simple yet powerful 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/task-manager.git
-cd task-manager/frontend
+git clone https://github.com/Ashik302/taskmanager-Frontend.git
