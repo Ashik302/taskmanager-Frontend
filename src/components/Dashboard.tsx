@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { FaTrashAlt, FaCalendarAlt, FaRegEdit, FaSignOutAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaCalendarAlt, FaRegEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 interface TaskFormData {
@@ -22,7 +22,6 @@ const Dashboard = () => {
   const [filterType, setFilterType] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [isFormVisible, setFormVisible] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const [forceRender, setForceRender] = useState(false); // used for reload
   const navigate = useNavigate();
 
@@ -41,7 +40,6 @@ const Dashboard = () => {
         });
         setTasks(response.data);
       } catch (err: any) {
-        setError('Failed to fetch tasks. Please try again.');
         console.error('Fetch tasks error:', err);
       }
     };
@@ -92,7 +90,6 @@ const Dashboard = () => {
       reset();
       setFormVisible(false);
     } catch (err: any) {
-      setError('Failed to add task. Please try again.');
       console.error('Add task error:', err);
     }
   };
@@ -106,7 +103,6 @@ const Dashboard = () => {
       });
       setTasks(tasks.filter((task) => task.id !== taskId));
     } catch (err: any) {
-      setError('Failed to delete task. Please try again.');
       console.error('Delete task error:', err);
     }
   };
