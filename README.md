@@ -1,4 +1,51 @@
-# React + TypeScript + Vite
+# 💼 Software Engineering Internship Project
+
+## 📝 Task Manager Frontend
+
+This is the **frontend** for the Task Manager Web App — a simple yet powerful tool to manage your daily tasks. Built with **React**, **TypeScript**, and **Tailwind CSS**, it offers a clean interface, user authentication, and secure task handling via JWT.
+
+---
+
+## 🔥 Features
+
+- 🔐 User registration & login
+- ⚙️ JWT-based authentication with token expiration
+- ⏱️ Real-time session countdown timer (auto logout)
+- 📋 Add, filter, and delete tasks
+- 💡 Minimal & responsive UI with Tailwind CSS
+- 🛡️ Protected routes using context-based auth
+- 🚪 Logout functionality with immediate UI updates
+
+---
+
+## 🧠 What's New?
+
+- ✅ Implemented **global Auth Context** for managing login state
+- ✅ Navbar now **auto-updates** after login/logout without page reload
+- ✅ Added real-time token countdown inside the Navbar
+- ✅ Fully dynamic user session handling
+
+---
+
+## 🛠 Tech Stack
+
+- **React + TypeScript**
+- **Tailwind CSS**
+- **React Hook Form**
+- **React Router DOM**
+- **Axios**
+- **JWT (JSON Web Tokens)**
+- **Context API for Authentication**
+
+---
+
+## 🧰 Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Ashik302/taskmanager-Frontend.git
+cd taskmanager-Frontend
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -51,44 +98,3 @@ export default tseslint.config({
     ...reactDom.configs.recommended.rules,
   },
 })
-```
-# 📝 Task Manager Frontend
-
-This is the **frontend** for the Task Manager Web App — a simple yet powerful tool to manage your daily tasks. Built with **React**, **TypeScript**, and **Tailwind CSS**, it offers a clean interface, user authentication, and secure task handling via JWT.
-
-## 📸 Screenshots
-
-![Login Page](screenshots/login.png)
-![Dashboard](screenshots/dashboard.png)
-
----
-
-## 🔥 Features
-
-- 🔐 User registration & login
-- ⚙️ JWT-based authentication
-- ⏱️ Session expiration with countdown timer
-- 📋 Add, filter, and delete tasks
-- 💡 Minimal & responsive UI (Tailwind CSS)
-- 🔁 Token-based protected routes
-- 🚪 Logout functionality
-
----
-
-## 🛠 Tech Stack
-
-- **React + TypeScript**
-- **Tailwind CSS**
-- **React Hook Form**
-- **React Router DOM**
-- **Axios**
-- **JWT (JSON Web Tokens)**
-
----
-
-## 🧰 Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Ashik302/taskmanager-Frontend.git

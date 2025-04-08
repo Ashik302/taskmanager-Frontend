@@ -35,8 +35,8 @@ const Dashboard = () => {
           navigate('/login');
           return;
         }
-
-        const response = await axios.get('http://localhost:5000/api/tasks', {
+        
+        const response = await axios.get(`https://taskmanager-backend-production-7a27.up.railway.app/api/tasks`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTasks(response.data);
@@ -45,15 +45,16 @@ const Dashboard = () => {
         console.error('Fetch tasks error:', err);
       }
     };
-
+    
     fetchTasks();
   }, [forceRender]);
-
+  
+  // window.location.reload();
   useEffect(() => {
     // Simulate force refresh
     setTimeout(() => setForceRender(true), 100);
   }, []);
-
+  
 
 
   const calculateCountdown = (dueDate: string) => {
@@ -83,7 +84,7 @@ const Dashboard = () => {
         dueDate: new Date(data.dueDate).toISOString(),
       };
 
-      const response = await axios.post('http://localhost:5000/api/tasks', newTask, {
+      const response = await axios.post(`https://taskmanager-backend-production-7a27.up.railway.app/api/tasks`, newTask, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -100,7 +101,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
-      await axios.delete(`http://localhost:5000/api/tasks/delete/${taskId}`, {
+      await axios.delete(`https://taskmanager-backend-production-7a27.up.railway.app/api/tasks/delete/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(tasks.filter((task) => task.id !== taskId));
@@ -128,7 +129,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white p-6 font-sans overflow-hidden">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-indigo-700 drop-shadow-sm">Dashboard</h1>
-      
+
       </div>
 
       <div className="max-w-full mx-auto space-y-10">
@@ -233,32 +234,34 @@ const Dashboard = () => {
 
         {/* Task List */}
         {filteredTasks.length > 0 ? (
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-2xl font-bold text-indigo-700 mb-4">Your Tasks</h2>
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-indigo-700 mb-4 text-center sm:text-left">Your Tasks</h2>
             <ul className="space-y-4">
               {filteredTasks.map((task) => (
                 <li
                   key={task.id}
-                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-gray-100 rounded-lg hover:shadow transition"
+                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4 bg-gray-100 rounded-lg hover:shadow transition"
                 >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-lg text-indigo-700 font-semibold">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-base sm:text-lg text-indigo-700 font-semibold break-words">
                       <FaRegEdit />
-                      {task.title}
+                      <span>{task.title}</span>
                     </div>
-                    <div className="text-sm text-gray-600">{task.description}</div>
-                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <div className="text-sm text-gray-600 break-words">{task.description}</div>
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-gray-700">
                       <FaCalendarAlt className="text-indigo-500" />
                       <span>Due: {new Date(task.dueDate).toLocaleDateString()}</span>
-                      <span className="ml-2 text-red-500 italic">({calculateCountdown(task.dueDate)})</span>
+                      <span className="text-red-500 italic">({calculateCountdown(task.dueDate)})</span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleDelete(task.id)}
-                    className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-md mt-4 sm:mt-0"
-                  >
-                    <FaTrashAlt />
-                  </button>
+                  <div className="self-end sm:self-auto">
+                    <button
+                      onClick={() => handleDelete(task.id)}
+                      className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-md w-full sm:w-auto"
+                    >
+                      <FaTrashAlt />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -266,6 +269,7 @@ const Dashboard = () => {
         ) : (
           <p className="text-center text-gray-500">No tasks found.</p>
         )}
+
       </div>
     </div>
   );

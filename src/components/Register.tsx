@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { AuthContext } from '../context/authContext';
 
 interface RegisterFormData {
   username: string;
@@ -12,6 +13,8 @@ interface RegisterFormData {
 }
 
 const Register = () => {
+
+  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -27,11 +30,9 @@ const Register = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', data);
+      const response = await axios.post(`https://taskmanager-backend-production-7a27.up.railway.app/api/auth/register`, data);
       const { token, expireTime } = response.data;
-      const expirationTime = new Date().getTime() + expireTime * 1000;
-      localStorage.setItem('token', token);
-      localStorage.setItem('expirationTime', expirationTime.toString());
+      login(token, expireTime)
       navigate('/dashboard');
     } catch (error: any) {
       console.error('Registration error:', error.response?.data || error.message);

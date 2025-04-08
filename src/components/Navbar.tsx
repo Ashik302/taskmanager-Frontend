@@ -1,48 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 const Navbar = () => {
-  const token = localStorage.getItem('token');
-  const expirationTime = localStorage.getItem('expirationTime');
-  const [timeLeft, setTimeLeft] = useState(0);
-
-  useEffect(() => {
-    if (token && expirationTime) {
-      const expireTime = Number(expirationTime);
-
-      if (isNaN(expireTime)) {
-        console.error('Invalid expiration time:', expirationTime);
-        return;
-      }
-
-      const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const remainingTime = expireTime - now;
-
-        if (remainingTime <= 0) {
-          clearInterval(interval);
-          localStorage.removeItem('token');
-          localStorage.removeItem('expirationTime');
-          window.location.href = '/login';
-        } else {
-          setTimeLeft(remainingTime);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [token, expirationTime]);
+  const { token, timeLeft, logout } = useContext(AuthContext);
 
   const formatTimeLeft = (timeInMs: number) => {
     const totalSeconds = Math.floor(timeInMs / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationTime');
-    window.location.href = '/login';
   };
 
   return (
@@ -53,7 +19,7 @@ const Navbar = () => {
       </div>
 
       {/* Countdown */}
-      {token && expirationTime && timeLeft > 0 && (
+      {token && timeLeft > 0 && (
         <div className="text-center sm:text-left">
           <div className="text-sm sm:text-base font-mono">
             {formatTimeLeft(timeLeft)}
@@ -65,7 +31,7 @@ const Navbar = () => {
       {/* Logout Button */}
       {token && (
         <button
-          onClick={handleLogout}
+          onClick={logout}
           className="bg-red-600 hover:bg-red-700 text-white text-sm px-3 py-1 sm:px-4 sm:py-2 rounded-lg self-center"
         >
           Log Out

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { AuthContext } from '../context/authContext'
 
 interface FormData {
   username: string;
@@ -11,6 +12,8 @@ interface FormData {
 }
 
 const Login = () => {
+
+  const { login } = useContext(AuthContext)
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -24,12 +27,10 @@ const Login = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', data);
+      const response = await axios.post(`https://taskmanager-backend-production-7a27.up.railway.app/api/auth/login`, data);
       const { token, expireTime } = response.data;
-      const expirationTime = new Date().getTime() + expireTime * 1000;
+      login(token, expireTime); // <- use context login method
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('expirationTime', expirationTime.toString());
       navigate('/dashboard');
     } catch (error) {
       console.error("Login failed", error);
